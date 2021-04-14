@@ -1,0 +1,29 @@
+type ChatRoom @model @auth(rules: [{allow: public}]) @key(name: "byUser", fields: ["userID"]) {
+  id: ID!
+  otherUserId: String
+  otherUserName: String
+  userID: ID
+  chatId: String
+  untitledfield: String
+}
+
+type ChatData @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  message: String
+  createdAt: AWSDateTime
+  chatRoomId: String
+  senderId: String
+}
+
+type User @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  username: String!
+  email: String
+  bio: String
+  profileImage: String
+  isVerified: Boolean
+  createdAt: AWSDateTime
+  chats: AWSJSON
+  ChatRooms: [ChatRoom] @connection(keyName: "byUser", fields: ["id"])
+}
+ 
